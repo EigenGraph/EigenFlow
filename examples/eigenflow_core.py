@@ -284,25 +284,25 @@ def build_prescriptive_recommendation(
     """
     if guard_flag == 1 or not p2:
         return (
-            f"[KRITIS - Mekanisme/Jalur Tunggal] Lintasan cadangan P2 kosong saat #{el_id} ({el_name}) "
-            f"terdisrupsi (m_s={m_s:.3f}, RRR={rrr_nl:.2f}). Tambahkan pengaku diagonal (bracing) atau "
-            f"balok pengikat untuk membentuk lintasan alternatif P2."
+            f"[CRITICAL - Mechanism / Single Load Path] Backup load path P2 is empty when #{el_id} ({el_name}) "
+            f"is disrupted (m_s={m_s:.3f}, RRR={rrr_nl:.2f}). Add diagonal bracing or "
+            f"tie beams to establish an alternate load path P2."
         )
     if zone == "CRITICAL":
         upsize_pct = int(np.clip(round((delta_N_kN / max(capacity_kN, 1.0)) * 100.0), 15, 65))
         return (
-            f"[KRITIS - Non-Linear Woodbury] Redistribusi pascaleleh ΔN = {delta_N_kN:.2f} kN ke lintasan "
-            f"P2={p2} dengan tuntutan daktilitas μ = {ductility_mu:.2f} (RRR={rrr_nl:.2f}). "
-            f"Perbesar penampang {el_name} ~{upsize_pct}% atau perkuat kapasitas daktail pada elemen P2={p2}."
+            f"[CRITICAL - Non-Linear Woodbury] Post-yield redistribution ΔN = {delta_N_kN:.2f} kN to load path "
+            f"P2={p2} with ductility demand μ = {ductility_mu:.2f} (RRR={rrr_nl:.2f}). "
+            f"Upsize cross-section {el_name} ~{upsize_pct}% or strengthen ductile capacity on elements P2={p2}."
         )
     if zone == "WARNING":
         return (
-            f"[TRANSISI - Redundansi Moderat] Margin kinematik m_s={m_s:.3f}, redistribusi ΔN = {delta_N_kN:.2f} kN "
-            f"ke P2={p2} (μ = {ductility_mu:.2f}). Pastikan pendetailan sambungan memenuhi daktilitas menengah."
+            f"[TRANSITION - Moderate Redundancy] Kinematic margin m_s={m_s:.3f}, redistribution ΔN = {delta_N_kN:.2f} kN "
+            f"to P2={p2} (μ = {ductility_mu:.2f}). Ensure connection detailing satisfies moderate ductility."
         )
     return (
-        f"[AMAN - Redundan Terverifikasi] Lintasan utama P1={p1} memiliki cadangan P2={p2} "
-        f"(m_s={m_s:.3f}, RRR={rrr_nl:.2f}, μ={ductility_mu:.2f}). Tidak diperlukan pembesaran penampang."
+        f"[SAFE - Verified Redundancy] Primary load path P1={p1} has redundant backup P2={p2} "
+        f"(m_s={m_s:.3f}, RRR={rrr_nl:.2f}, μ={ductility_mu:.2f}). No section upsizing required."
     )
 
 

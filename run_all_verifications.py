@@ -2,14 +2,14 @@
 """
 run_all_verifications.py
 ========================
-Skrip verifikasi terpadu satu pintu (single-entry-point runner) untuk repositori
+Unified single-entry-point verification runner for repository
 "AdjustedRedundancyIndex_Non-Linear (EigenFlow)" — Harids Irawan (2026).
 
-Menjalankan seluruh suite pengujian deterministik:
-  1. Gate 1: Verifikasi Matematis Solver Non-Linear Woodbury / Sherman-Morrison & Pushover Elasto-Plastis (Pers. 4.13d–4.13g)
-  2. Gate 2: Verifikasi Pipeline Bercabang (ARI Linear Gatekeeper -> EigenFlow Non-Linear Woodbury Transparency & Prescriptive Advisor)
+Executes the full suite of deterministic tests:
+  1. Gate 1: Mathematical Verification of Non-Linear Woodbury / Sherman-Morrison Solver & Elasto-Plastic Pushover (Eqs. 4.13d–4.13g)
+  2. Gate 2: Branched Pipeline Verification (ARI Linear Gatekeeper -> EigenFlow Non-Linear Woodbury Transparency & Prescriptive Advisor)
 
-Cara menjalankan dari root repositori:
+How to run from repository root:
     python3 run_all_verifications.py
 """
 
@@ -24,14 +24,14 @@ ROOT_DIR = Path(__file__).resolve().parent
 EXAMPLES_DIR = ROOT_DIR / "examples"
 
 SUITE = [
-    ("1. Gate 1: Solver Non-Linear Woodbury & Pushover Elasto-Plastis (M1–M4)", "test_woodbury_solver.py"),
-    ("2. Gate 2: Pipeline Bercabang ARI Linear -> Non-Linear & Rekomendasi Preskriptif", "test_branching_pipeline.py"),
+    ("1. Gate 1: Non-Linear Woodbury Solver & Elasto-Plastic Pushover (M1–M4)", "test_woodbury_solver.py"),
+    ("2. Gate 2: Branched Pipeline ARI Linear -> Non-Linear & Prescriptive Recommendations", "test_branching_pipeline.py"),
 ]
 
 
 def main() -> int:
     print("=" * 88)
-    print("SUITE VERIFIKASI TERPADU — ADJUSTED REDUNDANCY INDEX NON-LINEAR (EIGENFLOW)")
+    print("UNIFIED VERIFICATION SUITE — ADJUSTED REDUNDANCY INDEX NON-LINEAR (EIGENFLOW)")
     print("=" * 88)
 
     results = []
@@ -39,7 +39,7 @@ def main() -> int:
 
     for label, script_name in SUITE:
         script_path = EXAMPLES_DIR / script_name
-        print(f"\n>>> Menjalankan {label} ({script_name})...")
+        print(f"\n>>> Running {label} ({script_name})...")
         t0 = time.perf_counter()
         proc = subprocess.run(
             [sys.executable, str(script_path)],
@@ -59,14 +59,14 @@ def main() -> int:
     n_total = len(results)
 
     print("\n" + "=" * 88)
-    print("RINGKASAN HASIL VERIFIKASI REPOSITORI ARI NON-LINEAR (EIGENFLOW)")
+    print("VERIFICATION RESULTS SUMMARY — ARI NON-LINEAR REPOSITORY (EIGENFLOW)")
     print("=" * 88)
-    print(f"{'Tahap Verifikasi':<64} | {'Status':<8} | {'Waktu':>8}")
+    print(f"{'Verification Stage':<64} | {'Status':<8} | {'Time':>8}")
     print("-" * 88)
     for label, ok, dt in results:
-        print(f"{label:<64} | {'LULUS' if ok else 'GAGAL':<8} | {dt:>6.2f} s")
+        print(f"{label:<64} | {'PASSED' if ok else 'FAILED':<8} | {dt:>6.2f} s")
     print("-" * 88)
-    print(f"Total Tahap Lulus: {n_pass}/{n_total} | Total Waktu Eksekusi: {total_dt:.2f} detik")
+    print(f"Total Passed Stages: {n_pass}/{n_total} | Total Execution Time: {total_dt:.2f} seconds")
     print("=" * 88)
     return 0 if n_pass == n_total else 1
 

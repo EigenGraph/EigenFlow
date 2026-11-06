@@ -37,7 +37,7 @@ def main() -> int:
     fails = []
 
     print("=" * 116)
-    print("GATE 2 — PIPELINE BERCABANG: ARI LINEAR (PRA-ANALISIS) -> EIGENFLOW / ARI NON-LINEAR (TRANSPARANSI WOODBURY)")
+    print("GATE 2 — BRANCHED PIPELINE: ARI LINEAR (PRE-ANALYSIS) -> EIGENFLOW / ARI NON-LINEAR (WOODBURY TRANSPARENCY)")
     print("=" * 116)
 
     for m in models:
@@ -58,14 +58,14 @@ def main() -> int:
 
         print(f"\n>>> Model: {mid} — {res['model_name']}")
         print(
-            f"    Utuh: u_max = {res['intact_umax_mm']:.4f} mm | S(G0) = {res['baseline_score_S0']:.6f} | "
+            f"    Intact: u_max = {res['intact_umax_mm']:.4f} mm | S(G0) = {res['baseline_score_S0']:.6f} | "
             f"LF_yield = {res['intact_yield_load_factor']:.3f} | LF_ult = {res['intact_ultimate_load_factor']:.3f} | "
-            f"Urutan Leleh = {res['intact_yield_sequence']}"
+            f"Yield Sequence = {res['intact_yield_sequence']}"
         )
         print("-" * 116)
         print(
-            f"{'Elemen':<24} {'λ':>5} {'Zona L1':<9} {'ARI_Lin':>8} {'m_s':>7} "
-            f"{'ΔN(kN)':>8} {'RRR_NL':>8} {'μ':>7} {'ARI_NL':>8} {'CI_NL':>8} {'Alasan F^+':<18}"
+            f"{'Element':<24} {'λ':>5} {'Zone L1':<9} {'ARI_Lin':>8} {'m_s':>7} "
+            f"{'ΔN(kN)':>8} {'RRR_NL':>8} {'μ':>7} {'ARI_NL':>8} {'CI_NL':>8} {'Forward Reason':<18}"
         )
         print("-" * 116)
 
@@ -106,7 +106,7 @@ def main() -> int:
                 }
             )
 
-        print("  Rekomendasi Preskriptif AI (EigenFlow Non-Linear Woodbury, λ=0.0):")
+        print("  AI Prescriptive Recommendations (EigenFlow Non-Linear Woodbury, λ=0.0):")
         for r in [x for x in res["reports"] if x.lambda_val == 0.0][:3]:
             print(f"    * {r.prescriptive_recommendation}")
 
@@ -137,13 +137,13 @@ def main() -> int:
     json_path.write_text(json.dumps(summary_by_model, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print("\n" + "=" * 116)
-    print(f"Artefak CSV disimpan ke  : {csv_path}")
-    print(f"Artefak JSON disimpan ke : {json_path}")
+    print(f"CSV Artifact saved to  : {csv_path}")
+    print(f"JSON Artifact saved to : {json_path}")
     if not fails:
-        print("STATUS AKHIR GATE 2: LULUS 100% (Pipeline Bercabang Linear -> Non-Linear Woodbury Terverifikasi)")
+        print("GATE 2 FINAL STATUS: 100% PASSED (Branched Pipeline Linear -> Non-Linear Woodbury Verified)")
         print("=" * 116)
         return 0
-    print(f"STATUS AKHIR GATE 2: GAGAL: {fails}")
+    print(f"GATE 2 FINAL STATUS: FAILED: {fails}")
     print("=" * 116)
     return 1
 
